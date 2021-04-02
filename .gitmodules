@@ -1,0 +1,3 @@
+[submodule "whycon_core"]
+	path = whycon_core
+	url = git@github.com:ivomarvan/whycon_core.git
