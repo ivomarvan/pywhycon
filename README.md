@@ -10,36 +10,79 @@ It can be used both off-line, as a source of ground-truth for robotics experimen
 _WhyCon_ is meant as an alternative to widely used and expensive localization systems. It is fully open-source.
 _WhyCon-orig_ is WhyCon's original, minimalistic version that was supposed to be ROS and openCV independent.
 
-###<a name="whycon_core">Core library</a>
-The package is a wrapper of the <a href="https://github.com/ivomarvan/whycon_core">Whycon core library</a>. 
-
-**For citations of articles, contacts to the original author, please see these pages. You will also find citations of projects that contributed to the development of the Whycon.**
-(This page is also part of this repository as a submodule and can be found as README.md in the whycon_core directory.)
 
 ### <a name="dependencies">Dependencies</a>
 
-* <b>OpenCVcv</b>
+* <b>OpenCV</b>
+* <b>Whycon Core library</b> - see bellow
 
-###<a name="building">Building</a>
 
-####Whycon core library
+###<a name="install">Install</a>
 
-The Whycon core library is a submodule of this repository.
+You have to be in your active Python environment.
+
+(something like conda activate _'your enviroment'_)
+
+#### Pip
+
+Comming soon ... :-)
+
+    pip install whycon
+
+#### setup.py
+
+    ./setup.py install
+
+#### Makefile
+
+Compile and linking module to ./bin/whycon.so
+
+    make
+
+##Examples
+
+Examples are in the _usecases_ directory in the <a href="https://github.com/ivomarvan/pywhycon">repo on GitHub</a>.
+
+####show_help.py
+
+It only tests that the module was installed successfully. It prints the help message of the module.
+
+####camera_test.py
+
+Turn on the USB webcam and see what it sees. 
+If Whycon-markers are found in the image, they will be highlighted 
+and their found properties will be written to the console.
+
+####autocalibration_test.py
+
+Automatic calibration of space transformation parameters by monitoring 
+four WhyCon markers arranged in a square 
+(with the configured length of its side).
+
+######web_camera.py  
+
+Auxiliary object, camera abstraction.
+(Searches for the first unshaded camera.)
+
+######window.py
+
+Auxiliary object, Screen window abstraction.
+
+
+####Whycon core library as a submodule
+
+The Whycon core library is a git submodule of this repository.
 
 If you do not have a _whycon_core_ directory in the root directory, enter
-`git submodule init`
-`git submodule update`
 
-If you do not have the whycon_core library installed, go to the whycon_coore directory 
-and install it according to the README listed there.
+    git submodule init
+    git submodule update
 
-TLDR:
 
-`cd whycon_core`
+###<a name="whycon_core">Whycon Core library</a>
+The package (pywhycon) is a wrapper of the <a href="https://github.com/ivomarvan/whycon_core">Whycon core library</a>. 
 
-something like `conda activate <your enviroment>`
+**For citations of articles, contacts to the original author, please see these pages. You will also find citations of projects that contributed to the development of the Whycon.**
 
-`make USE_OPENCV_FROM_PYTHON=1`
-
-`sudo make install`
+<hr>
 

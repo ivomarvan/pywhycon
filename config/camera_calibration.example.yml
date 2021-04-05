@@ -1,0 +1,13 @@
+%YAML:1.0
+---
+camera_id:  "cinska hranata"
+intrinsic: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [684.5885907, 0.0, 322.91522817,  0.0, 682.99236553, 195.06292201, 0.0, 0.0, 1.0]
+distortion: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [0.0404658481,  1.36116841,  0.00369186, 0.010824, -5.64838654]

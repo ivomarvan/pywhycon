@@ -161,7 +161,7 @@ class WhyCodeCppPython
     }
 };
 
-PYBIND11_MODULE(pywhycon, m) {
+PYBIND11_MODULE(whycon, m) {
   using namespace pybind11::literals; // for _a literal to define arguments
   m.doc() = "WhyCon is a version of a vision-based localization system that can be used with low-cost web cameras, and achieves millimiter\n"
   "precision with very high performance.\n"

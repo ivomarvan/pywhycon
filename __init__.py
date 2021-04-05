@@ -1,1 +1,1 @@
-from pywhycon import WhyCodeDetector, SpaceTransofmType, WhycodeAutocalibResult, CWhyconMarker
+from whycon import WhyCodeDetector, SpaceTransofmType, WhycodeAutocalibResult, CWhyconMarker
