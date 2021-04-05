@@ -17,7 +17,7 @@ _WhyCon-orig_ is WhyCon's original, minimalistic version that was supposed to be
 * <b>Whycon Core library</b> - see bellow
 
 
-###<a name="install">Install</a>
+### <a name="install">Install</a>
 
 You have to be in your active Python environment.
 
@@ -39,37 +39,37 @@ Compile and linking module to ./bin/whycon.so
 
     make
 
-##Examples
+## Examples
 
 Examples are in the _usecases_ directory in the <a href="https://github.com/ivomarvan/pywhycon">repo on GitHub</a>.
 
-####show_help.py
+#### show_help.py
 
 It only tests that the module was installed successfully. It prints the help message of the module.
 
-####camera_test.py
+#### camera_test.py
 
 Turn on the USB webcam and see what it sees. 
 If Whycon-markers are found in the image, they will be highlighted 
 and their found properties will be written to the console.
 
-####autocalibration_test.py
+#### autocalibration_test.py
 
 Automatic calibration of space transformation parameters by monitoring 
 four WhyCon markers arranged in a square 
 (with the configured length of its side).
 
-######web_camera.py  
+###### web_camera.py  
 
 Auxiliary object, camera abstraction.
 (Searches for the first unshaded camera.)
 
-######window.py
+###### window.py
 
 Auxiliary object, Screen window abstraction.
 
 
-####Whycon core library as a submodule
+#### Whycon core library as a submodule
 
 The Whycon core library is a git submodule of this repository.
 
@@ -79,7 +79,7 @@ If you do not have a _whycon_core_ directory in the root directory, enter
     git submodule update
 
 
-###<a name="whycon_core">Whycon Core library</a>
+### <a name="whycon_core">Whycon Core library</a>
 The package (pywhycon) is a wrapper of the <a href="https://github.com/ivomarvan/whycon_core">Whycon core library</a>. 
 
 **For citations of articles, contacts to the original author, please see these pages. You will also find citations of projects that contributed to the development of the Whycon.**
