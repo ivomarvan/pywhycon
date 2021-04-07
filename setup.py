@@ -44,8 +44,8 @@ WHYCON_CORE_SRC_DIR = abs_path(WHYCON_CORE_DIR, 'src')
 WHYCON_CORE_LIB_DIR = abs_path(WHYCON_CORE_DIR, 'bin')
 PYWHYCON_SRC_DIR    = abs_path(THE_DIR, 'src')
 PYWHYCON_BUILD_DIR  = abs_path(THE_DIR, 'build')
-PY_MAKEFILE         = abs_path('.', 'Makefile')
-WHYCON_CORE_MAKEFILE = abs_path('.', 'whycon_core', 'Makefile')
+PY_MAKEFILE         = './Makefile'
+WHYCON_CORE_MAKEFILE = './whycon_core/Makefile'
 
 
 # compile params for module whycon.so
@@ -55,13 +55,15 @@ PY_CXXFLAGS += '-Wall -fPIC -O3 -shared -std=gnu++11 ' # + shell(['python3-confi
 # compile params, use same version of opencv as python
 PY_CXXFLAGS += pkgconfig.cflags(USED_OPENCV)
 
+
+pywhycon_sources = get_files(PYWHYCON_SRC_DIR, extension='.cpp', relative=True)
+#print('pywhycon_sources', pywhycon_sources)
 whycon_python_wrapper = Extension(
     'whycon',
-    sources=get_files(PYWHYCON_SRC_DIR, extension='.cpp'),
+    sources=pywhycon_sources,
     extra_compile_args=PY_CXXFLAGS.split(' '),
-    extra_link_args=[os.path.abspath('./whycon_core/bin/whycon_core.so')]
+    extra_link_args=[os.path.abspath('./whycon_core/bin/whycon_core.so')],
 )
-
 
 # The text of the README file
 with open(os.path.join(THE_DIR, 'README.md'), 'r') as f:
@@ -77,6 +79,13 @@ class BuildExtWhyconSo(build_ext):
         print(' '.join(command))
         print(shell(command))
         super().run()
+
+
+scripts= [PY_MAKEFILE, WHYCON_CORE_MAKEFILE, './VERSION.txt', './utils.py'] \
+    + get_files(PYWHYCON_SRC_DIR, extension=None, relative=True) \
+    + get_files(WHYCON_CORE_SRC_DIR, extension=None, relative=True) \
+    + ['./whycon_core/README.md']
+
 
 # This call to setup() does all the work
 setup(
@@ -103,6 +112,7 @@ setup(
     ],
     ext_modules = [whycon_python_wrapper],
     cmdclass={'build_ext': BuildExtWhyconSo},
+    scripts=scripts
 )
 
 

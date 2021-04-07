@@ -38,8 +38,8 @@ if __name__ == "__main__":
     detector = WhyCodeDetector(
         camera_calibration_path, # path to existing camera calibration file
         space_calibration_path,  # path to existing space calibration file
-        0.155,            # default black circle diameter [m];
-        10,               # num of markers to track
+        0.15,             # default black circle diameter [m];
+        4,                # num of markers to track
         TransType.T_NONE, # calibation transform type
         7,                # num of ID id_bits
         720,              # num of id_samples to identify ID
@@ -61,11 +61,14 @@ if __name__ == "__main__":
             start_time = time()
             detector_result = detector.detect(img_array)
             stop_time = time()
+            print(len(detector_result))
+            '''	
             if detector_result:
-                for i, marker in enumerate(detector_result):
+                for i, marker in enumerate(detector_result.markers):
                     print(f'\t\tID {marker.segment_in_image.ID}')
                     print(f'{i}\t\tin image x:{marker.segment_in_image.x}, y:{marker.segment_in_image.y}')
                     print(f'\t\tin space x:{marker.coords.x}, y:{marker.coords.y}, z:{marker.coords.z}, d:{marker.coords.d}')
+	        '''
             window.swow(img_array)
             delta_time = stop_time - start_time
             t_sum += delta_time
