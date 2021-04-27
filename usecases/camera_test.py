@@ -12,9 +12,9 @@ from time import time, sleep
 # root of project repository
 THE_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..'))
-#PACKAGE_DIR = os.path.abspath(os.path.join(PROJECT_ROOT, 'bin'))
-sys.path.append(THE_FILE_DIR)
-#sys.path.append(PACKAGE_DIR)
+
+PACKAGE_DIR = os.path.abspath(os.path.join(PROJECT_ROOT, 'bin'))
+sys.path.append(PACKAGE_DIR)
 
 from whycon import WhyCodeDetector, SpaceTransofmType as TransType
 from web_camera import WebCamera
@@ -61,14 +61,11 @@ if __name__ == "__main__":
             start_time = time()
             detector_result = detector.detect(img_array)
             stop_time = time()
-            print(len(detector_result))
-            '''	
             if detector_result:
-                for i, marker in enumerate(detector_result.markers):
+                for i, marker in enumerate(detector_result):
                     print(f'\t\tID {marker.segment_in_image.ID}')
                     print(f'{i}\t\tin image x:{marker.segment_in_image.x}, y:{marker.segment_in_image.y}')
                     print(f'\t\tin space x:{marker.coords.x}, y:{marker.coords.y}, z:{marker.coords.z}, d:{marker.coords.d}')
-	        '''
             window.swow(img_array)
             delta_time = stop_time - start_time
             t_sum += delta_time
