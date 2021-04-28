@@ -19,6 +19,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(THE_FILE_DIR, '..'))
 #PACKAGE_DIR = os.path.abspath(os.path.join(PROJECT_ROOT, 'bin'))
 sys.path.append(THE_FILE_DIR)
 #sys.path.append(PACKAGE_DIR)
+sys.path.append('../bin/')
 
 from whycon import WhyCodeDetector, SpaceTransofmType as TransType
 from web_camera import WebCamera

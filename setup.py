@@ -51,7 +51,7 @@ WHYCON_CORE_MAKEFILE = './whycon_core/Makefile'
 # compile params for module whycon.so
 PY_CXXFLAGS = ''
 PY_CXXFLAGS += '-Wall -fPIC -O3 -shared -std=gnu++11 ' # + shell(['python3-config', '--cflags']) + ' '
-#PY_CXXFLAGS += '-I/usr/include' + ' '
+PY_CXXFLAGS += '-I./whycon_core/src/' + ' '
 # compile params, use same version of opencv as python
 PY_CXXFLAGS += pkgconfig.cflags(USED_OPENCV)
 
@@ -108,6 +108,7 @@ setup(
     install_requires=[
         'numpy',
         'pybind11',
+        'pkconfig',
         # 'opencv-python' | cv2
     ],
     ext_modules = [whycon_python_wrapper],

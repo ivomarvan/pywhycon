@@ -15,7 +15,9 @@ _WhyCon-orig_ is WhyCon's original, minimalistic version that was supposed to be
 
 * <b>OpenCV</b>
 * <b>Whycon Core library</b> - see bellow
-
+* <b>pkconfig</b> - only for module building
+* <b>pybind11</b> - only for module building
+* <b>numpy</b>
 
 ### <a name="install">Install</a>
 

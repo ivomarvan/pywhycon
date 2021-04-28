@@ -9,7 +9,7 @@
 DEBUG_MAKEFILE := 0
 
 ROOT_DIR 	:= $(shell realpath .)
-USED_OPENCV 	:= opencv4 		# OR opencv
+USED_OPENCV 	:= opencv 		# OR opencv4, ...
 
 .PHONY: make_dirs all clean python_package
 all: make_dirs  python_package
@@ -29,7 +29,7 @@ PYTHON_OBJ_FILES	:= $(patsubst $(PYTHON_CPP_DIR)/%.cpp, $(PYTHON_BUILD_DIR)/%.o,
 # whre is library
 SYS_INCLUDE_DIR := /usr/include
 SYS_LIB_DIR 	:= /usr/lib/whycon
-WHYCON_LIB 		:= $(SYS_LIB_DIR)/whycon.so
+WHYCON_LIB 		:= $(SYS_LIB_DIR)/whycon_core.so
 
 # compile params
 PYTHON_CXXFLAGS += -Wall -fPIC -O3 -shared -std=gnu++11  $(shell python3-config --cflags)
