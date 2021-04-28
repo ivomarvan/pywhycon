@@ -9,12 +9,10 @@
 DEBUG_MAKEFILE := 0
 
 ROOT_DIR 	:= $(shell realpath .)
-USED_OPENCV 	:= opencv 		# OR opencv4, ...
+USED_OPENCV 	:= opencv4 		# opencv OR opencv4, ...
 
 .PHONY: make_dirs all clean python_package
 all: make_dirs  python_package
-
-
 
 # --- python_package --------------------------------------------------------------------------------------------------
 PYTHON_HEADER_DIR	:= $(ROOT_DIR)/src
@@ -31,7 +29,7 @@ SYS_INCLUDE_DIR := /usr/include
 SYS_LIB_DIR 	:= /usr/lib/whycon
 WHYCON_LIB 		:= $(SYS_LIB_DIR)/whycon_core.so
 
-# here are *.o files
+# where are *.o files
 LIB_ROOT_DIR	:= $(ROOT_DIR)/whycon_core
 LIB_CPP_DIR 	:= $(LIB_ROOT_DIR)/src
 LIB_HEADER_DIR	:= $(LIB_ROOT_DIR)/src
@@ -57,6 +55,7 @@ PYTHON_PACKAGE_NAME:=$(RESULTS_BIN_DIR)/whycon.so
 
 info:
 	$(info    === Variables ====)
+	$(info    USED_OPENCV 			$(USED_OPENCV))
 	$(info    PYTHON_HEADER_DIR 	$(PYTHON_HEADER_DIR))
 	$(info    PYTHON_CPP_DIR 		$(PYTHON_CPP_DIR))
 	$(info    PYTHON_BUILD_DIR 		$(PYTHON_BUILD_DIR))
@@ -82,10 +81,9 @@ python_package: $(PYTHON_PACKAGE_NAME)
 $(PYTHON_BUILD_DIR)/%.o: $(PYTHON_CPP_DIR)/%.cpp $(PYTHON_HEADER_FILES) $(LIB_HEADER_FILES)
 	$(CXX) -I$(PYTHON_HEADER_DIR) -I$(LIB_HEADER_DIR) $(PYTHON_CXXFLAGS) -o $@ -c $<
 
-
 # compiling/linking library
 $(LIB_OBJ_FILES): $(LIB_CPP_FILES) $(LIB_HEADER_DIR)
-	$(MAKE) -C $(LIB_ROOT_DIR)
+	$(MAKE) -C $(LIB_ROOT_DIR) USED_OPENCV=$(USED_OPENCV)
 
 # linking
 $(PYTHON_PACKAGE_NAME): $(PYTHON_OBJ_FILES) $(LIB_OBJ_FILES)
@@ -93,7 +91,6 @@ $(PYTHON_PACKAGE_NAME): $(PYTHON_OBJ_FILES) $(LIB_OBJ_FILES)
 	@echo "*******************************************************************"
 	@echo "$(shell realpath $(PYTHON_PACKAGE_NAME)) was linked."
 	@echo "*******************************************************************"
-
 
 # --- all ----------------------------------------------------------------------------------------------------------
 make_dirs:
