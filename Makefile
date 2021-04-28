@@ -9,7 +9,7 @@
 DEBUG_MAKEFILE := 0
 
 ROOT_DIR 	:= $(shell realpath .)
-USED_OPENCV 	:= opencv4 		# opencv OR opencv4, ...
+OPENCV_VERSION 	:= opencv4 		# opencv OR opencv4, ...
 
 .PHONY: make_dirs all clean python_package
 all: make_dirs  python_package
@@ -43,19 +43,19 @@ PYTHON_CXXFLAGS += -Wall -fPIC -O3 -shared -std=gnu++11  $(shell python3-config 
 PYTHON_CXXFLAGS += -I$(SYS_INCLUDE_DIR) -I$(LIB_HEADER_DIR)		# for two posible places for headers
 
 # compile params, use same version of opencv as python
-PYTHON_CXXFLAGS += $(shell python -c 'import pkgconfig; print(pkgconfig.cflags("$(USED_OPENCV)"))')
+PYTHON_CXXFLAGS += $(shell python -c 'import pkgconfig; print(pkgconfig.cflags("$(OPENCV_VERSION)"))')
 
 # linking params
 PYTHON_LINK_PARAMS 	+= -O3 -shared -std=gnu++11
 PYTHON_LINK_LIBS 	+= `python3-config --ldflags --libs`
-PYTHON_LINK_LIBS 	+= $(shell python -c 'import pkgconfig; print(pkgconfig.libs("$(USED_OPENCV)"))')
+PYTHON_LINK_LIBS 	+= $(shell python -c 'import pkgconfig; print(pkgconfig.libs("$(OPENCV_VERSION)"))')
 
 PYTHON_PACKAGE_NAME:=$(RESULTS_BIN_DIR)/whycon.so
 
 
 info:
 	$(info    === Variables ====)
-	$(info    USED_OPENCV 			$(USED_OPENCV))
+	$(info    OPENCV_VERSION 			$(OPENCV_VERSION))
 	$(info    PYTHON_HEADER_DIR 	$(PYTHON_HEADER_DIR))
 	$(info    PYTHON_CPP_DIR 		$(PYTHON_CPP_DIR))
 	$(info    PYTHON_BUILD_DIR 		$(PYTHON_BUILD_DIR))
@@ -83,7 +83,7 @@ $(PYTHON_BUILD_DIR)/%.o: $(PYTHON_CPP_DIR)/%.cpp $(PYTHON_HEADER_FILES) $(LIB_HE
 
 # compiling/linking library
 $(LIB_OBJ_FILES): $(LIB_CPP_FILES) $(LIB_HEADER_DIR)
-	$(MAKE) -C $(LIB_ROOT_DIR) USED_OPENCV=$(USED_OPENCV)
+	$(MAKE) -C $(LIB_ROOT_DIR) OPENCV_VERSION=$(OPENCV_VERSION) USE_OPENCV_FROM_PYTHON=$(USE_OPENCV_FROM_PYTHON)
 
 # linking
 $(PYTHON_PACKAGE_NAME): $(PYTHON_OBJ_FILES) $(LIB_OBJ_FILES)
@@ -97,6 +97,7 @@ make_dirs:
 	@mkdir -p $(LIB_BUILD_DIR) $(PYTHON_BUILD_DIR) $(MARK_GEN_BUILD_DIR) $(RESULTS_BIN_DIR)
 	
 clean:
+	$(MAKE) -C $(LIB_ROOT_DIR) clean
 	rm -rf $(RESULTS_BIN_DIR) $(PYTHON_BUILD_DIR)
 	
 

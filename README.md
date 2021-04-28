@@ -21,13 +21,22 @@ _WhyCon-orig_ is WhyCon's original, minimalistic version that was supposed to be
 
 ### <a name="install">Install</a>
 
-You have to be in your active Python environment.
+You have to be in your **active Python environment**.
 
 (something like conda activate _'your enviroment'_)
 
+Version of OpenCV must be same in python libraria with version of OpenCv c++ headers.
+For the reason you must set PKG_CONFIG_PATH. 
+
+If your environment path is <ENV> path, you must type
+
+`export PKG_CONFIG_PATH=<ENV>/lib/pkgconfig`
+
+(For example somthing like `export PKG_CONFIG_PATH=/home/ivo/miniconda3/envs/whycon/lib/pkgconfig`)
+
 #### Pip
 
-Comming soon ... :-)
+Comming soon ... :-), not implemented yet.
 
     pip install whycon
 
