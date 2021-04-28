@@ -40,7 +40,7 @@ LIB_OBJ_FILES	:= $(patsubst $(LIB_CPP_DIR)/%.cpp, $(LIB_BUILD_DIR)/%.o, $(LIB_CP
 
 # compile params
 PYTHON_CXXFLAGS += -Wall -fPIC -O3 -shared -std=gnu++11  $(shell python3-config --cflags)
-PYTHON_CXXFLAGS += -I$(SYS_INCLUDE_DIR)
+PYTHON_CXXFLAGS += -I$(SYS_INCLUDE_DIR) -I$(LIB_HEADER_DIR)		# for two posible places for headers
 
 # compile params, use same version of opencv as python
 PYTHON_CXXFLAGS += $(shell python -c 'import pkgconfig; print(pkgconfig.cflags("$(USED_OPENCV)"))')

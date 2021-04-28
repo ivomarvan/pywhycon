@@ -2,7 +2,7 @@
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 #include <vector>
-#include <whycon/CRawImage.h>
+#include "CRawImage.h"
 #include "CWhyconWrapper.h"
 
 namespace py = pybind11;

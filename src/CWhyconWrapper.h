@@ -11,9 +11,9 @@
 #include <string>
 #include <vector>
 #include <opencv2/opencv.hpp>
-#include <whycon/CRawImage.h>
-#include <whycon/SStructDefs.h>
-#include <whycon/CWhycon.h>
+#include "CRawImage.h"
+#include "SStructDefs.h"
+#include "CWhycon.h"
 
 class CAutocalibrationResult {
     public:
