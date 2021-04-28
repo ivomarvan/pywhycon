@@ -26,10 +26,19 @@ PYTHON_HEADER_FILES	:= $(wildcard $(PYTHON_HEADER_DIR)/*.h)
 PYTHON_CPP_FILES	:= $(wildcard $(PYTHON_CPP_DIR)/*.cpp)
 PYTHON_OBJ_FILES	:= $(patsubst $(PYTHON_CPP_DIR)/%.cpp, $(PYTHON_BUILD_DIR)/%.o, $(PYTHON_CPP_FILES))
 
-# whre is library
+# where is library *.so
 SYS_INCLUDE_DIR := /usr/include
 SYS_LIB_DIR 	:= /usr/lib/whycon
 WHYCON_LIB 		:= $(SYS_LIB_DIR)/whycon_core.so
+
+# here are *.o files
+LIB_ROOT_DIR	:= $(ROOT_DIR)/whycon_core
+LIB_CPP_DIR 	:= $(LIB_ROOT_DIR)/src
+LIB_HEADER_DIR	:= $(LIB_ROOT_DIR)/src
+LIB_BUILD_DIR 	:= $(LIB_ROOT_DIR)/build
+LIB_CPP_FILES	:= $(wildcard $(LIB_CPP_DIR)/*.cpp)
+LIB_HEADER_FILES:= $(wildcard $(LIB_HEADER_DIR)/*.h)
+LIB_OBJ_FILES	:= $(patsubst $(LIB_CPP_DIR)/%.cpp, $(LIB_BUILD_DIR)/%.o, $(LIB_CPP_FILES))
 
 # compile params
 PYTHON_CXXFLAGS += -Wall -fPIC -O3 -shared -std=gnu++11  $(shell python3-config --cflags)
@@ -58,8 +67,12 @@ info:
 	$(info    PYTHON_LINK_PARAMS 	$(PYTHON_LINK_PARAMS))
 	$(info    PYTHON_LINK_LIBS 		$(PYTHON_LINK_LIBS))
 	$(info    PYTHON_PACKAGE_NAME 	$(PYTHON_PACKAGE_NAME))
-	$(info    SYS_INCLUDE_DIR 	$(SYS_INCLUDE_DIR))
-	$(info    SYS_LIB_DIR 		$(SYS_LIB_DIR))
+	$(info    SYS_INCLUDE_DIR 	    $(SYS_INCLUDE_DIR))
+	$(info    SYS_LIB_DIR 		    $(SYS_LIB_DIR))
+	$(info    LIB_ROOT_DIR 	        $(LIB_ROOT_DIR))
+	$(info    LIB_CPP_DIR 	        $(LIB_CPP_DIR))
+	$(info    LIB_BUILD_DIR 	    $(LIB_BUILD_DIR))
+	$(info    LIB_OBJ_FILES 	    $(LIB_OBJ_FILES))
 	$(info    ================== )
 
 
@@ -70,13 +83,16 @@ $(PYTHON_BUILD_DIR)/%.o: $(PYTHON_CPP_DIR)/%.cpp $(PYTHON_HEADER_FILES) $(LIB_HE
 	$(CXX) -I$(PYTHON_HEADER_DIR) -I$(LIB_HEADER_DIR) $(PYTHON_CXXFLAGS) -o $@ -c $<
 
 
+# compiling/linking library
+$(LIB_OBJ_FILES): $(LIB_CPP_FILES) $(LIB_HEADER_DIR)
+	$(MAKE) -C $(LIB_ROOT_DIR)
+
 # linking
-$(PYTHON_PACKAGE_NAME): $(PYTHON_OBJ_FILES) $(WHYCON_LIB)
-	$(CXX) $(PYTHON_LINK_PARAMS) -o $(PYTHON_PACKAGE_NAME)  $(PYTHON_OBJ_FILES) $(WHYCON_LIB) $(PYTHON_LINK_LIBS)
+$(PYTHON_PACKAGE_NAME): $(PYTHON_OBJ_FILES) $(LIB_OBJ_FILES)
+	$(CXX) $(PYTHON_LINK_PARAMS) -o $(PYTHON_PACKAGE_NAME)  $(PYTHON_OBJ_FILES) $(LIB_OBJ_FILES) $(PYTHON_LINK_LIBS)
 	@echo "*******************************************************************"
 	@echo "$(shell realpath $(PYTHON_PACKAGE_NAME)) was linked."
 	@echo "*******************************************************************"
-
 
 
 # --- all ----------------------------------------------------------------------------------------------------------
