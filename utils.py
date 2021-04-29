@@ -49,20 +49,24 @@ VERSION_RE = re.compile(r'^[v]?(([0-9]+)\.([0-9]+)\.([0-9]+))')
 def get_version() -> str:
     # Try find it in the root directory from the git
     version_filename = os.path.join(THE_DIR, 'VERSION.txt')
-    command = ['git', 'describe', '--tags']
-    version_string = shell(command)
-    # first becor '-'
-    version_string = version_string.split('-')[0]
-    match = VERSION_RE.match(version_string)
-    if match:
-        found_version = match[0]
-        with open(version_filename, 'w') as f:
-            f.write(found_version + '\n')
-        return found_version
-    else:
+    try:
+        command = ['git', 'describe', '--tags']
+        version_string = shell(command)
+        # first becor '-'
+        version_string = version_string.split('-')[0]
+        match = VERSION_RE.match(version_string)
+        if match:
+            found_version = match[0]
+            with open(version_filename, 'w') as f:
+                f.write(found_version + '\n')
+            return found_version
+        else:
+            raise Exception('No good tags found for verion in git.')
+    except:
         # If no git is here, try read it from txt file
         with open(version_filename, 'r') as f:
             return f.read().strip()
+
 
 if __name__ == "__main__":
     print(get_version())

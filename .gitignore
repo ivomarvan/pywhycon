@@ -108,3 +108,6 @@ nogit_data/
 .directory
 .vscode
 
+bak
+dist
+

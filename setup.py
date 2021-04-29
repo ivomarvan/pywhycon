@@ -7,13 +7,13 @@ __description__ = '''
     
     ./setup.py install
     
-    1) Build the whycon_core library (into ./whycon_core/bin/whycon_core.so)
+    1) Build the whycon_core library (into ./whycon_core/build/*.o)
          (In the BuildExtWhyconSo::run method by calling an external Makefile)
-    2) Build a wrapper, by standard means setup.py
-         (Extension (...), call super().run() in BuildExtWhyconSo::run
+    2) Build a wrapper whycon.so         
     3) Installs the whycon wrapper library into the actual python environment
 '''
-
+import os
+import sys
 try:
     from setuptools import setup, Extension
     from setuptools.command.build_ext import build_ext
@@ -25,66 +25,37 @@ except ImportError as e:
     from distutils.command.build_clib import build_clib
     print('The distutils is used.')
 
-
-import os
-import pkgconfig
-
 # The directory containing this file
-THE_DIR = os.path.dirname(__file__)
+PROJECT_ROOT = os.path.dirname(__file__)
+sys.path.append(PROJECT_ROOT)
 
 # helping functions
-from utils import abs_path, get_files, shell
+from utils import get_version, abs_path, shell
+
+WHYCON_CORE_DIR = abs_path(PROJECT_ROOT, 'whycon_core')
+
+
 
 # --- Constants (directories ect.) -------------------------------------------------------------------------------------
 USED_OPENCV = 'opencv4' # OR opencv
-VERSION = '1.0.0'  # @todo Generate from git tag
-
-WHYCON_CORE_DIR = abs_path(THE_DIR, 'whycon_core')
-WHYCON_CORE_SRC_DIR = abs_path(WHYCON_CORE_DIR, 'src')
-WHYCON_CORE_LIB_DIR = abs_path(WHYCON_CORE_DIR, 'bin')
-PYWHYCON_SRC_DIR    = abs_path(THE_DIR, 'src')
-PYWHYCON_BUILD_DIR  = abs_path(THE_DIR, 'build')
-PY_MAKEFILE         = './Makefile'
-WHYCON_CORE_MAKEFILE = './whycon_core/Makefile'
-
-
-# compile params for module whycon.so
-PY_CXXFLAGS = ''
-PY_CXXFLAGS += '-Wall -fPIC -O3 -shared -std=gnu++11 ' # + shell(['python3-config', '--cflags']) + ' '
-PY_CXXFLAGS += '-I./whycon_core/src/' + ' '
-# compile params, use same version of opencv as python
-PY_CXXFLAGS += pkgconfig.cflags(USED_OPENCV)
-
-
-pywhycon_sources = get_files(PYWHYCON_SRC_DIR, extension='.cpp', relative=True)
-#print('pywhycon_sources', pywhycon_sources)
-whycon_python_wrapper = Extension(
-    'whycon',
-    sources=pywhycon_sources,
-    extra_compile_args=PY_CXXFLAGS.split(' '),
-    extra_link_args=[os.path.abspath('./whycon_core/bin/whycon_core.so')],
-)
+VERSION = get_version()
 
 # The text of the README file
-with open(os.path.join(THE_DIR, 'README.md'), 'r') as f:
+with open(os.path.join(PROJECT_ROOT, 'README.md'), 'r') as f:
     README = f.read()
 with open(os.path.join(WHYCON_CORE_DIR, 'README.md'), 'r') as f:
     README += f.read()
 
+# --- Buildin ----------------------------------------------------------------------------------------------------------
 class BuildExtWhyconSo(build_ext):
     def run(self):
-        # compile library to whycon_core/bin/whycon.so
-        makefile_dir = WHYCON_CORE_DIR
-        command = ['make', '-C', makefile_dir, f'SYS_LIB_DIR={WHYCON_CORE_LIB_DIR}']
-        print(' '.join(command))
+        # compile library whycon_core
+        command = ['make']
+        print(command)
         print(shell(command))
         super().run()
 
 
-scripts= [PY_MAKEFILE, WHYCON_CORE_MAKEFILE, './VERSION.txt', './utils.py'] \
-    + get_files(PYWHYCON_SRC_DIR, extension=None, relative=True) \
-    + get_files(WHYCON_CORE_SRC_DIR, extension=None, relative=True) \
-    + ['./whycon_core/README.md']
 
 
 # This call to setup() does all the work
@@ -106,14 +77,12 @@ setup(
     ],
     include_package_data=True,
     install_requires=[
-        'numpy',
-        'pybind11',
-        'pkconfig',
-        # 'opencv-python' | cv2
+        'numpy',        # for sharing images between Python and C++
+        'pybind11',     # create python package from C++
+        'pkgconfig',     # found good version of OpenCv in a environment
+        'opencv-python'           # 'opencv-python' in pip but can be different in conda
     ],
-    ext_modules = [whycon_python_wrapper],
     cmdclass={'build_ext': BuildExtWhyconSo},
-    scripts=scripts
 )
 
 
