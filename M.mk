@@ -1,10 +1,11 @@
 ##################################################################################################################
-# Author: ivo@marvan.cz
+#*Author:*ivo@marvan.cz
 ##################################################################################################################
 
-X := $(shell python3  'opencv_cflags_libs.py')
-CCLAGS := $(word 1,$(x))
-LIBS := $(word 2,$(x))
+OPENCV_FLAGS_ESCAPED  := $(shell python opencv_cflags_libs.py)
+OPENCV_CCLAGS 	:= $(subst *, ,$(word 1,$(OPENCV_FLAGS_ESCAPED)))
+OPENCV_LIBS 	:= $(subst *, ,$(word 2,$(OPENCV_FLAGS_ESCAPED)))
+
 
 .PHONY: info all
 
@@ -12,7 +13,6 @@ all: info
 
 info:
 	$(info    === Variables ====)
-	$(info    CCLAGS	$(CCLAGS))
-	$(info    LIBS 		$(LIBS))
-	$(info    X 		$(X))
-	$(info    Y 		$(Y))
+	$(info    OPENCV_FLAGS_ESCAPED	$(OPENCV_FLAGS_ESCAPED))
+	$(info    OPENCV_CCLAGS 		$(OPENCV_CCLAGS))
+	$(info    OPENCV_LIBS 			$(OPENCV_LIBS))

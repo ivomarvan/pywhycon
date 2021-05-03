@@ -112,12 +112,14 @@ class OpenCV_params:
     def get_as_env_variables(self) -> str:
         return f'CCLAGS += {self.cflags()}\n\tLIBS += {self.libs()} \n'
 
-    def get_as_list(self) -> str:
-        return f'"{self.cflags()}\n\tLIBS" "{self.libs()}"'
+    def get_for_makefile(self) -> str:
+        def escape(s: str) -> str:
+            return s.replace(' ', '*')
+        return f'{escape(self.cflags())} {escape(self.libs())} {escape(self.pkg_config_name())} {escape(self.version())}'
 
 if __name__ == "__main__":
     p = OpenCV_params()
-    print(p.get_as_list())
+    print(p.get_for_makefile())
     # print('version:\t', p.version())
     # print('pkg_config_name:\t', p.pkg_config_name())
     # print('cflags:\t', p.cflags())
