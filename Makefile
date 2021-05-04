@@ -9,7 +9,7 @@ DEBUG_MAKEFILE := 0
 
 ROOT_DIR 	:= $(shell realpath .)
 
-.PHONY: make_dirs all clean python_package
+.PHONY: make_dirs all clean python_package info info_local
 all: make_dirs  python_package
 
 # --- python_package --------------------------------------------------------------------------------------------------
@@ -42,15 +42,16 @@ OPENCV_CXXFLAGS 		:= $(subst *, ,$(word 1,$(OPENCV_FLAGS_ESCAPED)))
 OPENCV_LIBS 			:= $(subst *, ,$(word 2,$(OPENCV_FLAGS_ESCAPED)))
 OPENCV_NAME 			:= $(subst *, ,$(word 3,$(OPENCV_FLAGS_ESCAPED)))
 OPENCV_VERSION 			:= $(subst *, ,$(word 4,$(OPENCV_FLAGS_ESCAPED)))
+export PKG_CONFIG_PATH	:= $(subst *, ,$(word 5,$(OPENCV_FLAGS_ESCAPED)))
 
 # Pythons flags
-OPENCV_CXXFLAGS 	:= $(shell python3-config --cflags)
+PYTHON_CXXFLAGS 	:= $(shell python3-config --cflags)
 PYTHON_LIBS 		:= $(shell python3-config --ldflags --libs)
 
 # compile params
 CXXFLAGS := -Wall -fPIC -O3 -shared -std=gnu++11
 CXXFLAGS += -I$(SYS_INCLUDE_DIR) -I$(LIB_HEADER_DIR)	# for two posible places for headers
-CXXFLAGS += $(OPENCV_CXXFLAGS) $(OPENCV_CXXFLAGS)
+CXXFLAGS += $(OPENCV_CXXFLAGS) $(PYTHON_CXXFLAGS)
 
 # linking params
 LINK_FLAGS := -O3 -shared -std=gnu++11
@@ -58,7 +59,11 @@ LINK_FLAGS += $(OPENCV_LIBS) $(PYTHON_LIBS)
 
 PYTHON_PACKAGE_NAME:=$(RESULTS_BIN_DIR)/whycon.so
 
-info:
+info:	info_local
+	$(MAKE) -C $(LIB_ROOT_DIR) OPENCV_CXXFLAGS="$(OPENCV_CXXFLAGS)" OPENCV_LIBS="$(OPENCV_LIBS)"  OPENCV_NAME="$(OPENCV_NAME)" info
+
+
+info_local:
 	$(info    )
 	$(info    === Variables === $(ROOT_DIR) ===)
 #	$(info    OPENCV_FLAGS_ESCAPED	$(OPENCV_FLAGS_ESCAPED))
@@ -66,6 +71,7 @@ info:
 	$(info    OPENCV_VERSION 		$(OPENCV_VERSION))
 	$(info    OPENCV_CXXFLAGS 		$(OPENCV_CXXFLAGS))
 	$(info    OPENCV_LIBS 			$(OPENCV_LIBS))
+	$(info    PKG_CONFIG_PATH		$(PKG_CONFIG_PATH))
 	$(info    --------------------------------------------------)
 	$(info    PYTHON_CXXFLAGS 		$(PYTHON_CXXFLAGS))
 	$(info    PYTHON_LIBS 			$(PYTHON_LIBS))
@@ -88,7 +94,7 @@ info:
 	$(info    LIB_BUILD_DIR 	    $(LIB_BUILD_DIR))
 	$(info    LIB_OBJ_FILES 	    $(LIB_OBJ_FILES))
 	$(info    ================== )
-	$(MAKE) -C $(LIB_ROOT_DIR) OPENCV_CXXFLAGS="$(OPENCV_CXXFLAGS)" OPENCV_LIBS="$(OPENCV_LIBS)"  OPENCV_NAME="$(OPENCV_NAME)" info
+
 
 
 python_package: $(PYTHON_PACKAGE_NAME)

@@ -115,7 +115,7 @@ class OpenCV_params:
     def get_for_makefile(self) -> str:
         def escape(s: str) -> str:
             return s.replace(' ', '*')
-        return f'{escape(self.cflags())} {escape(self.libs())} {escape(self.pkg_config_name())} {escape(self.version())}'
+        return f'{escape(self.cflags())} {escape(self.libs())} {escape(self.pkg_config_name())} {escape(self.version())} {escape(self.pkg_config_path())}'
 
 if __name__ == "__main__":
     p = OpenCV_params()
