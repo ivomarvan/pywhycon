@@ -1,4 +1,4 @@
-# pywhycon ![Whycon tag with ID](whycon-code.jpg)
+# pywhycon ![Whycon tag with ID](./whycon-code.jpg)
 
 Python wrapper for Whycon.
 
@@ -21,34 +21,35 @@ _WhyCon-orig_ is WhyCon's original, minimalistic version that was supposed to be
 
 ### <a name="install">Install</a>
 
-You have to be in your **active Python environment**.
+You have to install the package from your **active python environment**.
 
-(something like conda activate _'your enviroment'_)
+Depending on your environment, you may need to enter something like
 
-Version of OpenCV must be same in python libraria with version of OpenCv c++ headers.
-For the reason you must set PKG_CONFIG_PATH. 
+`conda activate _your_python_environment_name_` 
 
-If your environment path is <ENV> path, you must type
+or 
 
-`export PKG_CONFIG_PATH=<ENV>/lib/pkgconfig`
+`workon _your_python_environment_name_`.
 
-(For example somthing like `export PKG_CONFIG_PATH=/home/ivo/miniconda3/envs/whycon/lib/pkgconfig`)
 
-#### Pip
+#### Makefile
 
-Comming soon ... :-), not implemented yet.
+Compile and linking module to **./bin/whycon.so**.
 
-    pip install whycon
+(It also compiles the _Whycon Core library_.)
+
+    make
 
 #### setup.py
 
     ./setup.py install
 
-#### Makefile
+(It calls the make [see above] and installs the whycon package in the current python environment.)
 
-Compile and linking module to ./bin/whycon.so
 
-    make
+#### Pip
+
+    pip install whycon
 
 ## Examples
 

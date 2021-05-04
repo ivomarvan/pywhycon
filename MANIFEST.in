@@ -1,3 +1,4 @@
 include utils.py
 include opencv_cflags_libs.py
-include config/*
+include whycon-code.jpg
+
