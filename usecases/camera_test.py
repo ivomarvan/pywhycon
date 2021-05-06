@@ -3,7 +3,7 @@
 __author__ = "Ivo Marvan"
 __email__ = "ivo@marvan.cz"
 __description__ = '''
-    Read images from camera and use py_whycon_code module to find markers.
+    Read images from a camera and use whycon module to find markers.
 '''
 import os
 import sys

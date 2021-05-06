@@ -3,7 +3,7 @@
 __author__ = "Ivo Marvan"
 __email__ = "ivo@marvan.cz"
 __description__ = '''
-    Show help for py_whycon_code
+    Show help for whycon package.
 '''
 import os, sys
 
