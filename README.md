@@ -1,6 +1,6 @@
 **I no longer support this project.**
     
-**See the installation notes from ![Andrew123098](https://github.com/ivomarvan/pywhycon/issues/2).**
+**See the installation notes from [Andrew123098](https://github.com/ivomarvan/pywhycon/issues/2).**
 
 <hr>
 
