@@ -1,3 +1,9 @@
+**I no longer support this project.**
+    
+**See the installation notes from ![Andrew123098](https://github.com/ivomarvan/pywhycon/issues/2).**
+
+<hr>
+
 # pywhycon ![Whycon tag with ID](./whycon-code.jpg)
 
 Python wrapper for Whycon.
